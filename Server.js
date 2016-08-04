@@ -27,7 +27,37 @@ var server = http.createServer(function(request, response) {
                     response.end();  
                 }  
             });  
-            break;  
+            break;
+        case '/Scripts/Controllers/ProcessManagerController.js':  
+            fs.readFile(__dirname + path, function(error, data) {  
+                if (error) {  
+                    response.writeHead(404);  
+                    response.write("page doesn't exist - 404");  
+                    response.end();  
+                } else {  
+                    response.writeHead(200, {  
+                        "Content-Type": "text/javascript"  
+                    });  
+                    response.write(data, "utf8");  
+                    response.end();  
+                }  
+            });  
+            break; 
+        case '/socketAngular.js':  
+            fs.readFile(__dirname + path, function(error, data) {  
+                if (error) {  
+                    response.writeHead(404);  
+                    response.write("page doesn't exist - 404");  
+                    response.end();  
+                } else {  
+                    response.writeHead(200, {  
+                        "Content-Type": "text/javascript"  
+                    });  
+                    response.write(data, "utf8");  
+                    response.end();  
+                }  
+            });  
+            break; 
         default:  
             response.writeHead(404);  
             response.write("page this doesn't exist - 404");  
@@ -36,28 +66,36 @@ var server = http.createServer(function(request, response) {
     }  
 });  
 server.listen(port);
+console.log("Server listenning in port: " + port);
 var listener = io.listen(server);  
+
+var processList = [];
+
 listener.sockets.on('connection', function(socket) {  
     //Send Data From Server To Client  
-    socket.emit('message', {  
-        'process': 'Starting Managment',
-         'processingTime': '' 
-    });  
+    socket.emit('sendProcessList', processList);  
     //Receive Data From Client  
-    socket.on('client_data', function(data) {  
+    socket.on('client_data', function(data) {
+        data.id = processList.length + 1;  
+        processList.push(data);
+        socket.emit('sendProcessList', processList);  
+        socket.emit('postNewProcessSuccess', null);  
 
-        socket.emit('message', {  
-            'process': data.process,
-            'processingTime': data.processingTime
-        });  
-
-        socket.broadcast.emit('message', {  
-            'process': data.process,
-            'processingTime': data.processingTime
-        });
+        socket.broadcast.emit('sendProcessList', processList);
 
         process.stdout.write(data.process);  
         console.log("");  
         console.log(data.processingTime);  
     });  
-});  
+});
+
+function handleRequest(request, response){
+    try {
+        //log the request on console
+        console.log(request.url);
+        //Disptach
+        dispatcher.dispatch(request, response);
+    } catch(err) {
+        console.log(err);
+    }
+} 

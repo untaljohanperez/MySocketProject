@@ -5,8 +5,9 @@
 	<title>Process Manager</title>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<body>
-	<div class="container">
+<body ng-app="mySocketApp" ng-cloak>
+	<div class="container" ng-controller="ProcessManagerController">
+	{{hi}}
 		<div class="well">
 			<div class="row">
 				<div class="col-md-12">
@@ -17,14 +18,14 @@
 
 				<div class="form-group col-md-6">
 					<label for="process">Process: </label>
-					<input id="process"  class="form-control"/>  
+					<input id="process"  class="form-control" ng-model="newProcess.process"/>  
 				</div>
 				<div class="form-group col-md-6">
 					<label for="processingTime">Processing Time: </label>
-					<input id="processingTime" class="form-control"/>  
+					<input id="processingTime" type="number" class="form-control" ng-model="newProcess.processingTime"/>  
 				</div>
 				<div class="form-group col-md-6">
-					<button id="send" class="btn btn-success btn-lg">Send</button>  
+					<button id="send" class="btn btn-success btn-lg" ng-click="sendProcess()">Send</button>  
 				</div>
 				
 			</div>	
@@ -36,36 +37,50 @@
 				</div>		
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-8 col-md-offset-2">
 					<div class="table-responsive">
 						<table class="table table-hover table-bordered table-condensed" id="processQueue">
 							<thead>
 								<tr>
+									<th>Id</th>
 									<th>Process</th>
 									<th>Processing Time</th>
 								</tr>
 							</thead>
 							<tbody id="processList">
-								
+								<tr ng-repeat="process in processList">
+									<td>{{process.id}}</td>
+									<td class="text-info">{{process.process}}</td>
+									<td>{{process.processingTime}}</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+
+				</div>		
 			</div>	
 		</div>
 	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>  
 
-	<script src="/socket.io/socket.io.js"></script>  
-	  
-	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>  
-	  
-	<script src="http://localhost:8080/server.js"></script>  
-	  
-	<script src="/server.js"></script> 
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>  
+
+	<script src="/socket.io/socket.io.js"></script>  
+
+	<script src="/socketAngular.js"></script> 
+	  
+
+	<script src="/Scripts/Controllers/ProcessManagerController.js"></script> 
+
+<!--
 	<script>  
   
 	var socket = io.connect();  
@@ -98,7 +113,7 @@
 	});  
 	  
 	</script>  
-
+-->
 </body>
 </html>
 
