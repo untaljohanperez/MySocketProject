@@ -5,8 +5,8 @@
 	<title>Process Manager</title>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<body ng-app="mySocketApp" ng-cloak>
-	<div class="container" ng-controller="ProcessManagerController">
+<body ng-app="mySocketApp" >
+	<div class="container" ng-controller="ProcessManagerController as processControl">
 	{{hi}}
 		<div class="well">
 			<div class="row">
@@ -16,11 +16,11 @@
 			</div>
 			<div class="row">
 
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-4">
 					<label for="process">Process: </label>
 					<input id="process"  class="form-control" ng-model="newProcess.process"/>  
 				</div>
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-2">
 					<label for="processingTime">Processing Time: </label>
 					<input id="processingTime" type="number" class="form-control" ng-model="newProcess.processingTime"/>  
 				</div>
@@ -45,13 +45,17 @@
 									<th>Id</th>
 									<th>Process</th>
 									<th>Processing Time</th>
+									<th>Remaining time</th>
+									<th>Status</th>
 								</tr>
 							</thead>
 							<tbody id="processList">
-								<tr ng-repeat="process in processList">
+								<tr ng-repeat="process in processList track by $index">
 									<td>{{process.id}}</td>
 									<td class="text-info">{{process.process}}</td>
 									<td>{{process.processingTime}}</td>
+									<td>{{process.remainingTime}}</td>
+									<td>{{process.status}}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -59,9 +63,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
-
-				</div>		
+				<div class="col-md-4">
+					<button class="btn btn-default" ng-click="startProcessing()">Start Processing</button>
+				</div>
+				<div class="col-md-4">
+					<button class="btn btn-default" ng-click="cleanList()">Clean List</button>
+				</div>				
 			</div>	
 		</div>
 	</div>
