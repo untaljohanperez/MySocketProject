@@ -85,7 +85,8 @@ listener.sockets.on('connection', function(socket) {
     socket.emit('sendProcessList', processList);
 
     socket.on('sendProcessList', function(data){
-        socket.broadcast.emit('sendProcessList', data);
+        processList = data;
+        socket.broadcast.emit('sendProcessList', processList);
     });      
 
     //Receive Data From Client  
