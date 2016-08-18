@@ -1,0 +1,25 @@
+{
+  "name": "mysocket",
+  "version": "1.0.0",
+  "description": "Process Manager with Nodejs Socket.io and Angularjs",
+  "main": "Server.js",
+  "dependencies": {
+    "httpdispatcher": "^1.0.0",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/untaljohanperez/MySocketProject.git"
+  },
+  "author": "UnTalJohanPerez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/untaljohanperez/MySocketProject/issues"
+  },
+  "homepage": "https://github.com/untaljohanperez/MySocketProject#readme"
+}
